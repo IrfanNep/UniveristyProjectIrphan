@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolio | Business Management</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #0f172a; 
+            --accent: #0d9488; 
+            --accent-light: #ccfbf1;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 40%;
+            height: 4px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        /* --- HERO SECTION --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            /* Added padding-top to prevent nav bar overlap */
+            padding: 120px 5% 0; 
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+            opacity: 0; 
+            transform: translateY(30px);
+            animation: fadeUp 1s forwards 0.5s;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .student-name {
+            font-size: 5rem; 
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        /* --- NEW STUDENT CARD LAYOUT --- */
+        .student-info-card {
+            display: flex;
+            flex-direction: row;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px -10px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--accent);
+            margin-bottom: 2.5rem;
+            overflow: hidden; 
+            min-height: 300px;
+        }
+
+        .student-info-text {
+            padding: 2.5rem;
+            flex: 1.2; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .student-info-image {
+            flex: 1;
+            position: relative;
+            min-width: 250px;
+        }
+
+        .student-info-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .detail-item h5 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .detail-item p {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            margin-left: 1rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(13, 148, 136, 0.1);
+            top: -100px;
+            right: -100px;
+        }
+        .shape-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(15, 23, 42, 0.05);
+            bottom: 50px;
+            left: -50px;
+        }
+
+        /* --- SECTION DEFAULTS --- */
+        section {
+            padding: 6rem 5%;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .section-header h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 125%; 
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .about-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            object-position: center top; 
+            transition: transform 0.5s ease;
+        }
+
+        .about-image-wrapper:hover .about-photo {
+            transform: scale(1.05);
+        }
+
+        .about-image-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent);
+            top: 20px;
+            left: 20px;
+            z-index: -1;
+            border-radius: 15px;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .stat-item h4 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0;
+        }
+
+        .stat-item span {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        #campus-life {
+            background: var(--bg-white);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            group: 'gallery';
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .overlay h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .overlay p {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        #skills {
+            background: var(--bg-light);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            transition: var(--transition);
+            border-top: 4px solid transparent;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow);
+            border-top: 4px solid var(--accent);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            background: var(--accent-light);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .skill-meta {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-wrapper {
+            background: white;
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .contact-form input, 
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background: var(--bg-light);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .about-container, 
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .student-info-card {
+                flex-direction: column-reverse;
+                height: auto;
+            }
+
+            .student-info-image {
+                height: 300px; 
+                width: 100%;
+            }
+
+            .student-name { 
+                font-size: 3.5rem; 
+                line-height: 1;
+            } 
+
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+
+            .menu-btn { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                background: white;
+                width: 100%;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                transition: var(--transition);
+                align-items: flex-start;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .contact-wrapper {
+                padding: 2rem;
+            }
+
+            .about-image-wrapper {
+                width: 90%; 
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#home" class="logo">
+            <i class="fas fa-briefcase"></i>
+            Portfolio<span>.</span>
+        </a>
+        <div class="menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#home" onclick="closeMenu()">Home</a>
+            <a href="#about" onclick="closeMenu()">About</a>
+            <a href="#campus-life" onclick="closeMenu()">Campus Life</a>
+            <a href="#skills" onclick="closeMenu()">Competencies</a>
+            <a href="#contact" onclick="closeMenu()">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        
+        <div class="hero-content">
+            <span class="hero-tag">Employability Skills & Learning Magazine</span>
+            
+            <h1 class="student-name">Irphan Miya</h1>
+            
+            <div class="student-info-card">
+                <div class="student-info-text">
+                    <div class="detail-item">
+                        <h5>Student ID</h5>
+                        <p>98776725</p>
+                    </div>
+                    <div class="detail-item">
+                        <h5>Email Address</h5>
+                        <p>i.miya@students.rave.ac.uk</p>
+                    </div>
+                    <div class="detail-item">
+                        <h5>University</h5>
+                        <p>Ravensbourne University</p>
+                    </div>
+                    <div class="detail-item">
+                        <h5>Degree Pathway</h5>
+                        <p>Business Management</p>
+                    </div>
+                </div>
+                <div class="student-info-image">
+                    <img src="WhatsApp Image 2025-11-28 at 09.25.21_281907fd.jpg" alt="Student Portrait">
+                </div>
+            </div>
+
+            <div class="hero-btns">
+                <a href="#about" class="btn">View Skills Analysis</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <div class="about-container">
+            <!-- Main Photo Wrapper -->
+            <div class="about-image-wrapper">
+                <img src="IMG-20251128-WA0002.jpg" alt="Student Profile at Excel London" class="about-photo">
+            </div>
+            
+            <div class="about-text">
+                <h3>The Journey to Professionalism</h3>
+                <p>My academic career has been defined by a transition from passive learning to active professional development. Utilizing frameworks like Kolb's Experiential Learning Cycle, I have refined my approach to complex business challenges.</p>
+                <p>I focus on "working smart"—implementing strategic planning (Cameron, 2021) and actively seeking constructive feedback (Burns & Sinfield, 2016) to continuously improve my output. This portfolio evidences my readiness for the modern workplace.</p>
+                
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <h4>0+</h4>
+                        <span>Years<br>Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>100%</h4>
+                        <span>Project<br>Commitment</span>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Agile</h4>
+                        <span>Mindset<br>& Method</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAMPUS LIFE / GALLERY SECTION  -->
+    <section id="campus-life">
+        <div class="section-header">
+            <h2>Academic & Campus Life</h2>
+            <p>Highlights from my university experience, networking events, and research projects.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Networking/Friends Image -->
+            <div class="gallery-item">
+                <img src="IMG-20251128-WA0003.jpg" alt="Networking and Collaboration">
+                <div class="overlay">
+                    <h4>Networking</h4>
+                    <p>Collaborating with peers and mentors.</p>
+                </div>
+            </div>
+
+            <!-- Poster/Presentation Image -->
+            <div class="gallery-item">
+                <img src="IMG-20251128-WA0004.jpg" alt="Insights Discovery Workshop">
+                <div class="overlay">
+                    <h4>Workshops</h4>
+                    <p>Engaging with 'Insights Discovery' & team dynamics.</p>
+                </div>
+            </div>
+
+            <!-- Laptop Research Image 1 -->
+            <div class="gallery-item">
+                <img src="IMG-20251128-WA0005.jpg" alt="Business Research">
+                <div class="overlay">
+                    <h4>Market Research</h4>
+                    <p>Analyzing industry leaders like Ratan Tata.</p>
+                </div>
+            </div>
+
+            <!-- Laptop Assignment Image 2 -->
+            <div class="gallery-item">
+                <img src="IMG-20251128-WA0006.jpg" alt="Academic Writing">
+                <div class="overlay">
+                    <h4>Academic Rigor</h4>
+                    <p>Developing comprehensive business reports.</p>
+                </div>
+            </div>
+
+            <!-- New Image 1 -->
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2025-11-28 at 09.18.46_3942dfe7.jpg" alt="Classroom Presentation">
+                <div class="overlay">
+                    <h4>Presentation Skills</h4>
+                    <p>Delivering group projects on branding.</p>
+                </div>
+            </div>
+
+            <!-- New Image 2 -->
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2025-11-28 at 09.22.13_1dfb7603.jpg" alt="Team Success">
+                <div class="overlay">
+                    <h4>Team Success</h4>
+                    <p>Celebrating project milestones with the group.</p>
+                </div>
+            </div>
+
+            <!-- New Image 3 -->
+            <div class="gallery-item">
+                <img src="WhatsApp Image 2025-11-28 at 09.22.13_c2efc0ed.jpg" alt="Industry Networking">
+                <div class="overlay">
+                    <h4>Industry Events</h4>
+                    <p>Networking with professionals at careers fair.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+   <!-- SKILLS SECTION -->
+<section id="skills">
+    <div class="section-header">
+        <h2>Core Competencies</h2>
+        <p>Elaborating on the core skills developed during my studies, supported by academic theory and practical application.</p>
+    </div>
+
+    <div class="skills-grid">
+
+        <!-- Skill 1: Communication Skills -->
+        <div class="skill-card">
+            <div class="skill-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <h3>Communication Skills</h3>
+            <p><strong>Theory:</strong> Effective communication requires clarity, audience awareness, and structured delivery in both verbal and written formats.</p>
+            <p><strong>Practice:</strong> I have improved in expressing ideas confidently during presentations and written assignments, ensuring information is concise and audience-focused.</p>
+            <div class="skill-meta">
+                <i class="fas fa-check-circle"></i> Evidence: Presentations & Reports
+            </div>
+        </div>
+
+        <!-- Skill 2: Analytical Thinking -->
+        <div class="skill-card">
+            <div class="skill-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3>Analytical Thinking</h3>
+            <p><strong>Theory:</strong> Analytical thinking involves breaking down information, assessing patterns, and drawing logical conclusions to support decision-making.</p>
+            <p><strong>Practice:</strong> I apply structured evaluation techniques in case studies, focusing on evidence-based conclusions rather than assumptions.</p>
+            <div class="skill-meta">
+                <i class="fas fa-check-circle"></i> Evidence: Case Study Analysis
+            </div>
+        </div>
+
+        <!-- Skill 3: Independent Learning -->
+        <div class="skill-card">
+            <div class="skill-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h3>Independent Learning</h3>
+            <p><strong>Theory:</strong> Self-directed learning encourages autonomy, reflection, and proactive engagement with academic materials.</p>
+            <p><strong>Practice:</strong> I manage my own study schedules, use academic resources independently, and consistently review materials to strengthen understanding.</p>
+            <div class="skill-meta">
+                <i class="fas fa-check-circle"></i> Evidence: Study Logs & Research Notes
+            </div>
+        </div>
+
+        <!-- Skill 4: Innovation, Creativity & Enterprise -->
+        <div class="skill-card">
+            <div class="skill-icon">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Innovation, Creativity & Enterprise</h3>
+            <p><strong>Theory:</strong> Creativity involves generating new ideas, innovative solutions, and thinking beyond conventional boundaries.</p>
+            <p><strong>Practice:</strong> I explore new tools, experiment with creative approaches in assignments, and challenge myself to design original outputs.</p>
+            <div class="skill-meta">
+                <i class="fas fa-check-circle"></i> Evidence: Creative Projects
+            </div>
+        </div>
+
+        <!-- Skill 5: Collaboration Skills -->
+        <div class="skill-card">
+            <div class="skill-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>Collaboration Skills</h3>
+            <p><strong>Theory:</strong> Successful teamwork requires active listening, shared responsibility, and leveraging group strengths to reach a common goal.</p>
+            <p><strong>Practice:</strong> Through group assignments, I contributed ideas, supported team members, and adapted to different working styles.</p>
+            <div class="skill-meta">
+                <i class="fas fa-check-circle"></i> Evidence: Group Projects
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="section-header">
+            <h2>Get in Touch</h2>
+            <p>Available for internships, graduate schemes, and collaborative projects.</p>
+        </div>
+
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h4>Email</h4>
+                        <p>i.miya@students.rave.ac.uk</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h4>Location</h4>
+                        <p>London, United Kingdom</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <h4>University</h4>
+                        <p>Ravensbourne University</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="contact-form" onsubmit="event.preventDefault(); showMessage()">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea rows="5" placeholder="Message" required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2025 Professional Student Portfolio. <br> Designed for Academic Excellence.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        function closeMenu() {
+            if (window.innerWidth <= 900) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.remove('fa-times');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+            }
+        }
+
+        function showMessage() {
+            const btn = document.querySelector('.contact-form button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Message Sent!';
+            btn.style.background = '#0d9488';
+            btn.style.borderColor = '#0d9488';
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = '#0f172a';
+                btn.style.borderColor = '#0f172a';
+                document.querySelector('.contact-form').reset();
+            }, 3000);
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+                nav.style.padding = '0.8rem 5%';
+            } else {
+                nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.05)';
+                nav.style.padding = '1rem 5%';
+            }
+        });
+    </script>
+</body>
+</html>
